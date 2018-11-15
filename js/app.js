@@ -2,6 +2,7 @@
  * Create a list that holds all of your cards
  */
 const listOfCards = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-leaf", "fa-bicycle", "fa-bomb"];
+const deck = document.querySelector(".deck");
 
 /*
  * Display the cards on the page
@@ -36,3 +37,11 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
+ deck.addEventListener('click', () => {
+     const clickTarget = event.target;
+     if (clickTarget.classList = "card"){
+         clickTarget.classList.toggle('open');
+         clickTarget.classList.toggle('show');
+     }
+ });
