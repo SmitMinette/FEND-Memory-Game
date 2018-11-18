@@ -3,6 +3,7 @@
  */
 const listOfCards = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-leaf", "fa-bicycle", "fa-bomb"];
 const deck = document.querySelector(".deck");
+let clickedCards = [];
 
 /*
  * Display the cards on the page
@@ -40,8 +41,14 @@ function shuffle(array) {
 
  deck.addEventListener('click', () => {
      const clickTarget = event.target;
-     if (clickTarget.classList = "card"){
+     if (clickTarget.classList = ("card") && clickedCards.length < 2){
          clickTarget.classList.toggle('open');
          clickTarget.classList.toggle('show');
-     }
+         clickedCards.push(clickTarget);
+         if (clickedCards.length === 2 && clickTarget == clickTarget){
+            clickTarget.classList.add('match');
+            }
+        };
+     } 
  });
+
