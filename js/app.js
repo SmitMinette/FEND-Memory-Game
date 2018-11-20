@@ -39,12 +39,34 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
+
+
  /* Cards 'show' and 'open when clicked. Only 2 cards 'show' at a time*/
  deck.addEventListener('click', () => {
      const clickTarget = event.target;
      if (clickTarget.classList.contains("card") && clickedCards.length < 2){
-         clickTarget.classList.add('open');
-         clickTarget.classList.add('show');
-         clickedCards.push(clickTarget);
+         clickTarget.classList.toggle('open');
+         clickTarget.classList.toggle('show');
+         listClickedCards(clickTarget);
+         if (clickedCards.length === 2){
+             checkClickedCards();
+            };
         };
     });
+
+/* Add clicked cards to list */
+function listClickedCards(clickTarget){
+    clickedCards.push(clickTarget);
+};
+
+/* Check if cards match */
+function checkClickedCards () {
+    if(clickedCards[0].firstElementChild.className === clickedCards[1].firstElementChild.className){
+        clickedCards[0].classList.toggle('match');
+        clickedCards[1].classList.toggle('match');
+        clickedCards = [];
+    } else {
+        clickedCards.classList.toggleClass('show open');
+        clickedCards=[];
+    };
+};
