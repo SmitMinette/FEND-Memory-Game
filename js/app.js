@@ -45,8 +45,8 @@ function shuffle(array) {
  deck.addEventListener('click', () => {
      const clickTarget = event.target;
      if (clickTarget.classList.contains("card") && clickedCards.length < 2){
-         clickTarget.classList.toggle('open');
-         clickTarget.classList.toggle('show');
+         clickTarget.classList.add('open');
+         clickTarget.classList.add('show');
          listClickedCards(clickTarget);
          if (clickedCards.length === 2){
              checkClickedCards();
@@ -66,7 +66,10 @@ function checkClickedCards () {
         clickedCards[1].classList.toggle('match');
         clickedCards = [];
     } else {
-        clickedCards.classList.toggleClass('show open');
-        clickedCards=[];
+        setTimeout (() => {
+        clickedCards[0].classList.remove('open', 'show');
+        clickedCards[1].classList.remove('open', 'show');
+        clickedCards = [];
+        }, 1000);
     };
 };
