@@ -1,6 +1,4 @@
-/*
- * Create a list that holds all of your cards
- */
+/* List of all cards */
 const listOfCards = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-leaf", "fa-bicycle", "fa-bomb"];
 const deck = document.querySelector(".deck");
 let clickedCards = [];
@@ -70,6 +68,16 @@ function checkClickedCards () {
         clickedCards[0].classList.remove('open', 'show');
         clickedCards[1].classList.remove('open', 'show');
         clickedCards = [];
-        }, 1000);
+        }, 500);
     };
 };
+
+/* Shuffle Cards */
+function shuffleCards() {
+    const cards = Array.from(document.querySelectorAll(".deck li"));
+    const shuffledCards = shuffle(cards);
+    for (card of shuffledCards){
+        deck.appendChild(card);
+        }
+    }
+shuffleCards();
