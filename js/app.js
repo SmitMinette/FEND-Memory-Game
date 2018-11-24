@@ -2,6 +2,7 @@
 const listOfCards = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-leaf", "fa-bicycle", "fa-bomb"];
 const deck = document.querySelector(".deck");
 let clickedCards = [];
+let noMoves = 0;
 
 /*
  * Display the cards on the page
@@ -38,7 +39,6 @@ function shuffle(array) {
  */
 
 
-
  /* Cards 'show' and 'open when clicked. Only 2 cards 'show' at a time*/
  deck.addEventListener('click', () => {
      const clickTarget = event.target;
@@ -48,6 +48,7 @@ function shuffle(array) {
          listClickedCards(clickTarget);
          if (clickedCards.length === 2){
              checkClickedCards();
+             moves();
             };
         };
     });
@@ -81,3 +82,10 @@ function shuffleCards() {
         }
     }
 shuffleCards();
+
+/* Moves */
+function moves() {
+    noMoves ++;
+    const movesText = document.querySelector('.moves');
+    movesText.innerHTML = noMoves;
+};
