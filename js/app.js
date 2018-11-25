@@ -3,6 +3,7 @@ const listOfCards = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "
 const deck = document.querySelector(".deck");
 let clickedCards = [];
 let noMoves = 0;
+const stars = document.getElementsByClassName('fa-star');
 
 /*
  * Display the cards on the page
@@ -51,6 +52,7 @@ function shuffle(array) {
              moves();
             };
         };
+        starRating();
     });
 
 /* Add clicked cards to list */
@@ -89,3 +91,15 @@ function moves() {
     const movesText = document.querySelector('.moves');
     movesText.innerHTML = noMoves;
 };
+
+/* Star rating */
+function starRating() {
+    if (noMoves==12){
+        stars[2].style.display = 'none';
+    }
+    if (noMoves==18){
+        stars[1].style.display = 'none';
+    }
+};
+
+    
