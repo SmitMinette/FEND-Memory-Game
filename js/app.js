@@ -1,9 +1,14 @@
 /* List of all cards */
 const listOfCards = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-leaf", "fa-bicycle", "fa-bomb"];
+
 const deck = document.querySelector(".deck");
 let clickedCards = [];
-let noMoves = 0;
-const stars = document.getElementsByClassName('fa-star');
+let numMoves = 0;
+let seconds = 0;
+let minutes = 0;
+let interval;
+const stars = document.getElementsByClassName("fa-star");
+const timer = document.querySelector(".timer");
 
 /*
  * Display the cards on the page
@@ -27,25 +32,12 @@ function shuffle(array) {
     return array;
 }
 
-
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
-
-
  /* Cards 'show' and 'open when clicked. Only 2 cards 'show' at a time*/
  deck.addEventListener('click', () => {
      const clickTarget = event.target;
      if (clickTarget.classList.contains("card") && clickedCards.length < 2){
-         clickTarget.classList.add('open');
-         clickTarget.classList.add('show');
+         clickTarget.classList.add("open");
+         clickTarget.classList.add("show");
          listClickedCards(clickTarget);
          if (clickedCards.length === 2){
              checkClickedCards();
@@ -63,13 +55,13 @@ function listClickedCards(clickTarget){
 /* Check if cards match */
 function checkClickedCards () {
     if(clickedCards[0].firstElementChild.className === clickedCards[1].firstElementChild.className){
-        clickedCards[0].classList.toggle('match');
-        clickedCards[1].classList.toggle('match');
+        clickedCards[0].classList.toggle("match");
+        clickedCards[1].classList.toggle("match");
         clickedCards = [];
     } else {
         setTimeout (() => {
-        clickedCards[0].classList.remove('open', 'show');
-        clickedCards[1].classList.remove('open', 'show');
+        clickedCards[0].classList.remove("open", "show");
+        clickedCards[1].classList.remove("open", "show");
         clickedCards = [];
         }, 500);
     };
@@ -85,21 +77,36 @@ function shuffleCards() {
     }
 shuffleCards();
 
-/* Moves */
+/* Moves Counter */
 function moves() {
-    noMoves ++;
-    const movesText = document.querySelector('.moves');
-    movesText.innerHTML = noMoves;
+    numMoves ++;
+    const movesText = document.querySelector(".moves");
+    movesText.innerHTML = numMoves;
 };
 
 /* Star rating */
 function starRating() {
-    if (noMoves==12){
+    if (numMoves==12){
         stars[2].style.display = 'none';
     }
-    if (noMoves==18){
+    if (numMoves==18){
         stars[1].style.display = 'none';
     }
 };
 
-    
+/* Timer */
+function startTimer(){
+    interval = setInterval(function(){
+        timer.innerHTML = minutes+"mins "+seconds+"secs";
+        seconds++;
+        if(seconds == 60){
+            minutes++;
+            seconds = 0;
+        }
+        if(minutes == 60){
+            hour++;
+            minutes = 0;
+        }
+    },1000);
+};
+startTimer();
