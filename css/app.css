@@ -107,3 +107,60 @@ h1 {
     float: right;
     cursor: pointer;
 }
+
+/* Styles for Modal */
+
+.modal_box {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.438);
+}
+
+.modal_body {
+    position: relative;
+    width:400px;
+    top: 30%;
+    left: 35%;
+    background: black;
+}
+
+.modal_heading {
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid white;
+    padding: 1rem;
+}
+
+.close_modal {
+    color: white;
+    font-weight: bold;
+}
+
+.modal_results {
+    color: gray;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    padding: 1rem;
+
+}
+
+.modal_buttons {
+    display: flex;
+    justify-content: space-around;
+    padding: 1rem;
+}
+
+.button {
+    width: 60px;
+    height: 30px;
+}
+
+.hide {
+    display: none;
+}
