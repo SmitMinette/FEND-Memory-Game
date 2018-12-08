@@ -1,21 +1,23 @@
 /* List of all cards */
 const listOfCards = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-leaf", "fa-bicycle", "fa-bomb"];
-
+/* Global */
 const deck = document.querySelector(".deck");
-let clickedCards = [];
+let openCards = [];
 let numMoves = 0;
-let seconds = 0;
-let minutes = 0;
+let time = 0;
+let timerOff = true;
+let timerId;
 let interval;
+let minutes = 0;
+let seconds = 0;
 const stars = document.getElementsByClassName("fa-star");
 const timer = document.querySelector(".timer");
+const restartBtn = document.querySelector(".restart");
+const modal = document.querySelector(".modal_box");
 
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
+/* To start the game */
+
+
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -32,37 +34,43 @@ function shuffle(array) {
     return array;
 }
 
- /* Cards 'show' and 'open when clicked. Only 2 cards 'show' at a time*/
+ /* Click event listener */
  deck.addEventListener('click', () => {
-     const clickTarget = event.target;
-     if (clickTarget.classList.contains("card") && clickedCards.length < 2){
-         clickTarget.classList.add("open");
-         clickTarget.classList.add("show");
-         listClickedCards(clickTarget);
-         if (clickedCards.length === 2){
-             checkClickedCards();
-             moves();
-            };
+    const clickTarget = event.target;
+    if (timerOff){
+        displayTime();
+        timerOff = false;
+    }
+    if (clickTarget.classList.contains("card") && openCards.length < 2){
+        clickTarget.classList.toggle("open");
+        clickTarget.classList.toggle("show");
+        addOpenCards(clickTarget);
+            if (openCards.length === 2){
+                checkClickedCards(clickTarget);
+                moves();
+                starRating();
+                };
         };
-        starRating();
     });
 
 /* Add clicked cards to list */
-function listClickedCards(clickTarget){
-    clickedCards.push(clickTarget);
+function addOpenCards(clickTarget){
+    openCards.push(clickTarget);
 };
 
 /* Check if cards match */
 function checkClickedCards () {
-    if(clickedCards[0].firstElementChild.className === clickedCards[1].firstElementChild.className){
-        clickedCards[0].classList.toggle("match");
-        clickedCards[1].classList.toggle("match");
-        clickedCards = [];
+    if(openCards[0].firstElementChild.className === openCards[1].firstElementChild.className){
+        openCards[0].classList.add("match");
+        openCards[1].classList.add("match");
+        openCards = [];
     } else {
         setTimeout (() => {
-        clickedCards[0].classList.remove("open", "show");
-        clickedCards[1].classList.remove("open", "show");
-        clickedCards = [];
+            openCards[0].classList.toggle("open");
+            openCards[0].classList.toggle("show");
+            openCards[1].classList.toggle("open");
+            openCards[1].classList.toggle("show");
+            openCards = [];
         }, 500);
     };
 };
@@ -95,7 +103,7 @@ function starRating() {
 };
 
 /* Timer */
-function startTimer(){
+function displayTime(){
     interval = setInterval(function(){
         timer.innerHTML = minutes+"mins "+seconds+"secs";
         seconds++;
@@ -108,5 +116,32 @@ function startTimer(){
             minutes = 0;
         }
     },1000);
+}
+  
+
+/* Stop the timer */
+function stopTimer(){
+    clearInterval(timerId);
 };
-startTimer();
+
+/* Toggle Modal */
+function toggleModal(){;
+    modal.classList.toggle("hide");
+};
+
+toggleModal();
+toggleModal();
+/* Modal Stats */
+
+function writeModalStats() {
+    if (clickedCards.length == 16){
+        const finalTime = document.querySelector(".timer").innerHTML;
+        clearInterval(interval);
+        modal.classList.toggle("show");
+        document.querySelector(".modal_time").innerHTML = finalTime;
+        document.querySelector(".modal_moves").innerHTML = numMoves;
+        document.querySelector(".modal_stars").innerHTML = stars;
+    };
+}
+
+
