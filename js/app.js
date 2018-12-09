@@ -3,6 +3,7 @@ const listOfCards = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "
 /* Global */
 const deck = document.querySelector(".deck");
 let openCards = [];
+let matched = 0;
 let numMoves = 0;
 let time = 0;
 let timerOff = true;
@@ -10,6 +11,7 @@ let timerId;
 let interval;
 let minutes = 0;
 let seconds = 0;
+const total_pairs = 8;
 const stars = document.getElementsByClassName("fa-star");
 const timer = document.querySelector(".timer");
 const restartBtn = document.querySelector(".restart");
@@ -51,6 +53,9 @@ function shuffle(array) {
                 starRating();
                 };
         };
+        if (matched == total_pairs){
+            gameOver();
+        };
     });
 
 /* Add clicked cards to list */
@@ -63,7 +68,8 @@ function checkClickedCards () {
     if(openCards[0].firstElementChild.className === openCards[1].firstElementChild.className){
         openCards[0].classList.add("match");
         openCards[1].classList.add("match");
-        openCards = [];
+        openCards = []
+        matched ++;
     } else {
         setTimeout (() => {
             openCards[0].classList.toggle("open");
@@ -124,24 +130,38 @@ function stopTimer(){
     clearInterval(timerId);
 };
 
+/* Star Count */
+function getStars() {
+    let starCount = 0;
+    for (star of stars) {
+        if (star.style.display !== "none"){
+            starCount ++;
+        }
+    }
+    return starCount;
+}
+
 /* Toggle Modal */
 function toggleModal(){;
     modal.classList.toggle("hide");
 };
 
-toggleModal();
-toggleModal();
 /* Modal Stats */
 
 function writeModalStats() {
-    if (clickedCards.length == 16){
-        const finalTime = document.querySelector(".timer").innerHTML;
-        clearInterval(interval);
-        modal.classList.toggle("show");
-        document.querySelector(".modal_time").innerHTML = finalTime;
-        document.querySelector(".modal_moves").innerHTML = numMoves;
-        document.querySelector(".modal_stars").innerHTML = stars;
-    };
-}
+    let finalTime = document.querySelector(".timer").innerHTML;
+    let finalStars = getStars();
+    modal.classList.add("show");
+    document.querySelector(".modal_time").innerHTML = "Time = " + finalTime;
+    document.querySelector(".modal_moves").innerHTML = "Moves = " + numMoves;
+    document.querySelector(".modal_stars").innerHTML = "Total stars = " + finalStars;
+};
 
+
+/* Game over */ 
+function gameOver() {
+    stopTimer();
+    writeModalStats();
+    toggleModal();
+}
 
