@@ -67,6 +67,7 @@ function startGame (){
             };
         });
     };
+startGame();
 
 /* Add clicked cards to list */
 function addOpenCards(clickTarget){
